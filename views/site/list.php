@@ -4,50 +4,62 @@ use yii\helpers\Html;
 use evgeniyrru\yii2slick\Slick;
 
 /* @var $this yii\web\View */
-$this->title = 'List of images';
+$this->title = $founded['name'];
 
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-about">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <button onclick="$('.mySlide').slick('slickPlay')" class="btn btn-primary">
-        <span class="glyphicon glyphicon-play"></span>
-    </button>
-    <button onclick="$('.mySlide').slick('slickPause')" id="slideStop" class="btn btn-primary">
-        <span class="glyphicon glyphicon-pause"></span>
-    </button>
-    <button onclick="$('.mySlide').slick('slickPrev')" id="slideStop" class="btn btn-primary">
-        <span class="glyphicon glyphicon-arrow-left"></span>
-    </button>
-    <button onclick="$('.mySlide').slick('slickNext')" id="slideStop" class="btn btn-primary">
-        <span class="glyphicon glyphicon-arrow-right"></span>
-    </button>
-
+    <div class="btn-group" role="group" aria-label="...">
+        <?php foreach ($details as $key => $detail): ?>
+            <a href="<?= yii\helpers\Url::to(['/site/index', 'type' => $type, 'subtype' => $key]) ?>"
+               data-toggle="tooltip"
+               title="<?= $key ?>"
+               data-placement="bottom"
+               class="btn btn-default">
+                   <?= $detail['name'] ?>
+            </a>
+        <?php endforeach; ?>
+    </div>
+    <div class="pull-right">
+        <button onclick="$('.mySlide').slick('slickPlay')" class="btn btn-primary"
+                data-toggle="tooltip"
+                title="Play"
+                data-placement="bottom">
+            <span class="glyphicon glyphicon-play"></span>
+        </button>
+        <button onclick="$('.mySlide').slick('slickPause')" id="slideStop" class="btn btn-primary"
+                data-toggle="tooltip"
+                title="Пауза"
+                data-placement="bottom">
+            <span class="glyphicon glyphicon-pause"></span>
+        </button>
+        <button onclick="$('.mySlide').slick('slickGoTo', 0)" id="slideStop" class="btn btn-primary"
+                data-toggle="tooltip"
+                title="Первый снимок"
+                data-placement="bottom">
+            <span class="glyphicon glyphicon-fast-backward"></span>
+        </button>
+        <button onclick="$('.mySlide').slick('slickPrev')" id="slideStop" class="btn btn-primary"
+                data-toggle="tooltip"
+                title="Предыдущий снимок"
+                data-placement="bottom">
+            <span class="glyphicon glyphicon-backward"></span>
+        </button>
+        <button onclick="$('.mySlide').slick('slickNext')" id="slideStop" class="btn btn-primary"
+                data-toggle="tooltip"
+                title="Следующий снимок"
+                data-placement="bottom">
+            <span class="glyphicon glyphicon-forward"></span>
+        </button>
+        <button onclick="$('.mySlide').slick('slickGoTo', <?= count($items) - 1 ?>)" id="slideStop" class="btn btn-primary"
+                data-toggle="tooltip"
+                title="Последний снимок"
+                data-placement="bottom">
+            <span class="glyphicon glyphicon-fast-forward"></span>
+        </button>
+    </div>
+    <hr />
     <?php
-    $items = [];
-
-    $dirPath = Yii::getAlias('wrf-pics') . '/2015-02-25-12';
-    $dir = $dirPath;
-    $files = scandir($dir);
-    sort($files, SORT_NATURAL);
-
-    $regexp = "/^pr_.*/";
-
-    foreach ($files as $filename) {
-        if (!($filename == "." || $filename == "..") && preg_match($regexp, $filename)) {
-            $items[] = Html::img($dirPath . '/' . $filename, ['class' => 'img-responsive']);
-        }
-    }
-
-//    if (count($items) == 0) {
-//        $items[ ] = Html::a(Yii::$app->imageCache->thumb($model->getMainImagePath(), 'thumb', [
-//                    'class' => 'img-thumbnail img-responsive'
-//                ]), $model->getMainImagePath(), [
-//                'rel' => 'prettyPhoto[pp_gal]'
-//        ]);
-//    }
-
     echo Slick::widget([
 //        'id' => 'mySlide',
         // HTML tag for container. Div is default.

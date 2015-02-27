@@ -8,6 +8,8 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Meteo;
+use yii\helpers\Html;
 
 class SiteController extends Controller {
 
@@ -45,8 +47,40 @@ class SiteController extends Controller {
         ];
     }
 
-    public function actionIndex() {
-        return $this->render('list');
+    public function actionIndex($type = Meteo::TYPE_RAINFALL, $subtype = 'pr') {
+        if (!array_key_exists($type, Meteo::getTypes())) {
+            $type = Meteo::TYPE_RAINFALL;
+            $subtype = 'pr';
+        }
+
+        $details = Meteo::getTypesDetails();
+        if (!array_key_exists($subtype, $details[$type])) {
+            $subtype = array_keys($details[$type])[0];
+        }
+
+        $founded = $details[$type][$subtype];
+        $regexp = $founded['regexp'];
+
+        $items = [];
+
+        $dirPath = Yii::getAlias('wrf-pics');
+        $dir = scandir($dirPath);
+        rsort($dir);
+        Yii::warning($dir[0]);
+        $files = scandir($dirPath . '/' . $dir[0]);
+        sort($files, SORT_NATURAL);
+
+        foreach ($files as $filename) {
+            if (!($filename == "." || $filename == "..") && preg_match($regexp, $filename)) {
+                $items [] = Html::img($dirPath . '/' . $dir[0] . '/' . $filename, ['class' => 'img-responsive']);
+            }
+        }
+        return $this->render('list', [
+                'items' => $items,
+                'details' => $details[$type],
+                'type' => $type,
+                'founded' => $founded
+        ]);
     }
 
     public function actionLogin() {

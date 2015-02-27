@@ -5,6 +5,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\models\Meteo;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -37,17 +38,12 @@ AppAsset::register($this);
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
-                    ['label' => 'Осадки', 'url' => ['/site/index', 'type' => 1]],
-                    ['label' => 'Температура', 'url' => ['/site/index', 'type' => 2]],
-                    ['label' => 'Влажность и ветер', 'url' => ['/site/index', 'type' => 3]],
-                    ['label' => 'Облачность', 'url' => ['/site/index', 'type' => 4]],
-//                    ['label' => 'About', 'url' => ['/site/about']],
-//                    ['label' => 'Contact', 'url' => ['/site/contact']],
-//                    Yii::$app->user->isGuest ?
-//                        ['label' => 'Login', 'url' => ['/site/login']] :
-//                        ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-//                        'url' => ['/site/logout'],
-//                        'linkOptions' => ['data-method' => 'post']],
+                    ['label' => 'Осадки', 'url' => ['/site/index', 'type' => Meteo::TYPE_RAINFALL]],
+                    ['label' => 'Температура', 'url' => ['/site/index', 'type' => Meteo::TYPE_TEMPERATURE]],
+                    ['label' => 'Влажность', 'url' => ['/site/index', 'type' => Meteo::TYPE_HUMIDITY]],
+                    ['label' => 'Ветер', 'url' => ['/site/index', 'type' => Meteo::TYPE_WIND]],
+                    ['label' => 'Облачность', 'url' => ['/site/index', 'type' => Meteo::TYPE_OVERCAST]],
+                    ['label' => 'Метеограмма', 'url' => ['/site/index', 'type' => Meteo::TYPE_METEOGRAMMA]],
                 ],
             ]);
             NavBar::end();
@@ -71,7 +67,7 @@ AppAsset::register($this);
                     &nbsp;
                     <?= date('Y') ?>
                 </p>
-                <!--<p class="pull-right"><?php // echo Yii::powered()       ?></p>-->
+                <!--<p class="pull-right"><?php // echo Yii::powered()            ?></p>-->
             </div>
         </footer>
 
