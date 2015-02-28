@@ -2,6 +2,6 @@
 
 return [
     'adminEmail' => 'admin@example.com',
-    'siteName' => 'Кыргызский метеорологический центр',
+    'siteName' => 'Гидрометеорологическая служба Кыргызстана',
     'wrf-pics' => '',
 ];

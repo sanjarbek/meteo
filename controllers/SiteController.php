@@ -75,6 +75,10 @@ class SiteController extends Controller {
                 $items [] = Html::img($dirPath . '/' . $dir[0] . '/' . $filename, ['class' => 'img-responsive']);
             }
         }
+        if (count($items) == 0) {
+            $items[] = Html::tag('h3', 'Данные обновляются, попробуйте через некоторое время.');
+        }
+
         return $this->render('list', [
                 'items' => $items,
                 'details' => $details[$type],

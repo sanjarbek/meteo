@@ -76,11 +76,11 @@ $this->title = $founded['name'];
         // settings for js plugin
         // @see http://kenwheeler.github.io/slick/#settings
         'clientOptions' => [
-            'autoplay' => true,
+            'autoplay' => false,
             'dots' => false,
             'autoplaySpeed' => 1000,
             'speed' => 10,
-            'lazyLoad' => 'ondemand', // ondemand, progressive
+            'lazyLoad' => 'progressive', // ondemand, progressive
             'adaptiveHeight' => true,
             'pauseOnHover' => false,
 //            'useCSS' => true,
